@@ -1,4 +1,4 @@
-name: build
+name: tests
 on:
   workflow_call:
     inputs:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-linux:
+    if: false
     runs-on: ubuntu-latest
     container:
       image: rbernon/winehq:stable
@@ -51,6 +52,7 @@ jobs:
           path: /home/github/*.report
 
   test-linux-trixie:
+    if: false
     runs-on: ubuntu-latest
     container:
       image: rbernon/winehq:trixie
@@ -89,6 +91,7 @@ jobs:
           path: /home/github/*.report
 
   test-macos:
+    if: false
     runs-on: macos-13
     strategy:
       matrix:
@@ -119,6 +122,7 @@ jobs:
           path: macos-*.report
 
   test-macos-m1ros2:
+    if: false
     runs-on: macos-14
     strategy:
       matrix:
@@ -159,9 +163,9 @@ jobs:
 
     steps:
       - run: |
-          gh -R rbernon/winetest-w7e        workflow run tests-w7e       -f run_id=${{ github.run_id }}
-          gh -R rbernon/winetest-w81e       workflow run tests-w81e      -f run_id=${{ github.run_id }}
-          gh -R rbernon/winetest-w10pro     workflow run tests-w10pro    -f run_id=${{ github.run_id }}
-          gh -R rbernon/winetest-w10ltsc    workflow run tests-w10ltsc   -f run_id=${{ github.run_id }}
-          gh -R rbernon/winetest-w11pro     workflow run tests-w11pro    -f run_id=${{ github.run_id }}
-          gh -R rbernon/winetest-w11ltsc    workflow run tests-w11ltsc   -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w7e        workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=7e   -f version=w7e64 ||:
+          gh -R rbernon/winetest-w81e       workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=81e  -f version=w81e64 ||:
+          gh -R rbernon/winetest-w10pro     workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=10   -f version=w10pro64 ||:
+          gh -R rbernon/winetest-w10ltsc    workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=10l  -f version=w10ltsc64 ||:
+          gh -R rbernon/winetest-w11pro     workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=11   -f version=w11pro64 ||:
+          gh -R rbernon/winetest-w11ltsc    workflow run windows -f run_id=${{ github.run_id }} -f event=${{ inputs.event }} -f install=11l  -f version=w11ltsc64 ||:

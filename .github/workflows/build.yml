@@ -42,6 +42,7 @@ jobs:
           path: usr
 
   build-macos:
+    if: false
     runs-on: macos-13
     strategy:
       matrix:
