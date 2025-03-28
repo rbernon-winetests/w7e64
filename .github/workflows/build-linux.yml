@@ -1,4 +1,4 @@
-name: build
+name: build-linux
 on:
   workflow_call:
     inputs:
@@ -7,7 +7,7 @@ on:
         default: "master"
 
 jobs:
-  build-linux:
+  build:
     runs-on: ubuntu-latest
     container:
       image: rbernon/winehq:stable
@@ -39,36 +39,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-linux-${{ matrix.arch }}
-          path: usr
-
-  build-macos:
-    if: false
-    runs-on: macos-13
-    strategy:
-      matrix:
-        arch: [win64]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .ccache
-            wine
-          key:
-            cache-macos-${{ matrix.arch }}-${{ github.run_id }}
-          restore-keys: |
-            cache-macos-${{ matrix.arch }}
-
-      - name: Build
-        run: |
-          $PWD/build-macos ${{ matrix.arch }}
-
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-macos-${{ matrix.arch }}
           path: usr
