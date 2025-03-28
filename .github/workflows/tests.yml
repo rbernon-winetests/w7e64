@@ -151,3 +151,17 @@ jobs:
         with:
           name: test-macos-${{ matrix.test }}-${{ matrix.arch }}.report
           path: m1ros2-*.report
+
+  test-windows:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - run: |
+          gh -R rbernon/winetest-w7e        workflow run tests-w7e       -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w81e       workflow run tests-w81e      -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w10pro     workflow run tests-w10pro    -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w10ltsc    workflow run tests-w10ltsc   -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w11pro     workflow run tests-w11pro    -f run_id=${{ github.run_id }}
+          gh -R rbernon/winetest-w11ltsc    workflow run tests-w11ltsc   -f run_id=${{ github.run_id }}
